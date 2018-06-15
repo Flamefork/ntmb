@@ -1,0 +1,24 @@
+NTMB
+.control
+set gnuplot_terminal=png
+source circuit.net
+
+set to_sweep = "treb_val"
+set sweep_values = ( 0 5 25 50 75 95 100 )
+
+foreach sweep_param $sweep_values
+  alterparam $to_sweep = $sweep_param
+  mc_source
+  ac dec 500 10 10k
+  let v = db(v(n_15))
+end
+
+gnuplot graphs/$to_sweep
+  + ac1.v ac2.v ac3.v ac4.v ac5.v ac6.v ac7.v
+  + ylimit -18 18
+  + xlimit 10 10k
+  + title $to_sweep
+
+quit
+.endc
+.end
