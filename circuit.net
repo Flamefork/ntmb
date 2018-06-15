@@ -11,7 +11,7 @@
 .PARAM treb_val=50
 .PARAM mid_val=50
 .PARAM mid_c=100n
-.PARAM treb_ind=100m
+.PARAM treb_ind=0
 .PARAM bass_c=100n
 
 * --------- devices ---------

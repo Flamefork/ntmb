@@ -7,49 +7,101 @@ source circuit.net
 
 set sweep_values = ( 0 5 25 50 75 95 100 )
 
-foreach sweep_param $sweep_values
-  alterparam bass_val = $sweep_param
+set to_sweep = "bass_val"
+
+  foreach sweep_param $sweep_values
+    alterparam $to_sweep = $sweep_param
+    mc_source
+    ac dec 500 10 10k
+    let v = db(v(n_15))
+  end
+  alterparam $to_sweep = 50
   mc_source
-  ac dec 500 10 10000
-  let bass_$sweep_param = db(v(n_15))
-end
-alterparam bass_val = 50
-mc_source
 
-gnuplot graphs/bass 
-+            ac1.bass_0
-+            ac2.bass_5
-+            ac3.bass_25
-+            ac4.bass_50
-+            ac5.bass_75
-+            ac6.bass_95
-+            ac7.bass_100
-+       ylimit -20 20
-+       xlimit 10 10k
-+       title "Bass sweep"
-destroy all
+  gnuplot graphs/$to_sweep
+    + ac1.v ac2.v ac3.v ac4.v ac5.v ac6.v ac7.v
+    + ylimit -20 20
+    + xlimit 10 10k
+    + title $to_sweep
+  destroy all
 
-foreach sweep_param $sweep_values
-  alterparam treb_val = $sweep_param
+set to_sweep = "treb_val"
+
+  foreach sweep_param $sweep_values
+    alterparam $to_sweep = $sweep_param
+    mc_source
+    ac dec 500 10 10k
+    let v = db(v(n_15))
+  end
+  alterparam $to_sweep = 50
   mc_source
-  ac dec 500 10 10000
-  let treb_$sweep_param = db(v(n_15))
-end
-alterparam treb_val = 50
-mc_source
 
-gnuplot graphs/treb 
-+            ac1.treb_0
-+            ac2.treb_5
-+            ac3.treb_25
-+            ac4.treb_50
-+            ac5.treb_75
-+            ac6.treb_95
-+            ac7.treb_100
-+       ylimit -20 20
-+       xlimit 10 10k
-+       title "Treble sweep"
-destroy all
+  gnuplot graphs/$to_sweep
+    + ac1.v ac2.v ac3.v ac4.v ac5.v ac6.v ac7.v
+    + ylimit -20 20
+    + xlimit 10 10k
+    + title $to_sweep
+  destroy all
+
+set to_sweep = "mid_val"
+
+  foreach sweep_param $sweep_values
+    alterparam $to_sweep = $sweep_param
+    mc_source
+    ac dec 500 10 10k
+    let v = db(v(n_15))
+  end
+  alterparam $to_sweep = 50
+  mc_source
+
+  gnuplot graphs/$to_sweep
+    + ac1.v ac2.v ac3.v ac4.v ac5.v ac6.v ac7.v
+    + ylimit -20 20
+    + xlimit 10 10k
+    + title $to_sweep
+  destroy all
+
+set to_sweep = "mid_c"
+  set sweep_values = ( 10u 1u 500n 250n 100n 10n 1n )
+  alterparam mid_val = 100
+
+  foreach sweep_param $sweep_values
+    alterparam $to_sweep = $sweep_param
+    mc_source
+    ac dec 500 10 10k
+    let v = db(v(n_15))
+  end
+  alterparam $to_sweep = 100n
+  alterparam mid_val = 50
+  mc_source
+
+  gnuplot graphs/$to_sweep
+    + ac1.v ac2.v ac3.v ac4.v ac5.v ac6.v ac7.v
+    + ylimit 0 20
+    + xlimit 10 10k
+    + title $to_sweep
+  destroy all
+
+set to_sweep = "treb_ind"
+  set sweep_values = ( 0 33m 66m 100m 330m 660m 1000m )
+  alterparam treb_val = 100
+
+  foreach sweep_param $sweep_values
+    alterparam $to_sweep = $sweep_param
+    mc_source
+    ac dec 500 10 10k
+    let v = db(v(n_15))
+  end
+  alterparam $to_sweep = 0
+  alterparam treb_val = 50
+  mc_source
+
+  gnuplot graphs/$to_sweep
+    + ac1.v ac2.v ac3.v ac4.v ac5.v ac6.v ac7.v
+    + ylimit 0 20
+    + xlimit 10 10k
+    + title $to_sweep
+  destroy all
 
 quit
 .endc
