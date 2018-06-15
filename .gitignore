@@ -1,3 +1,2 @@
-*.plt
-*.data
-*.png
+graphs/*
+!.gitkeep
